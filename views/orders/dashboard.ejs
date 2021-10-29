@@ -15,7 +15,7 @@
                     <table class="table table-bordered table-striped mb-2 table-success table-hover">
                         <thead>
                           <tr>
-                            <th scope="col"> Name</th>
+                            <th scope="col"> No.</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Next</th>
                           </tr>
@@ -25,7 +25,9 @@
                                 <% if(order.stage === 'preparing') {%>
                                     
                                     <tr>
-                                        <th scope="row"><%= order.userId.name %> </th>
+                                        <% let glass = order._id.toString() %> 
+                                        <% let orderNo = glass.slice(-4) %> 
+                                        <th scope="row"><%= orderNo %> </th>
                                         <td><%= order.cartTotal %> </td>
                                         <td>
                                             <form action="/orders/dashboard/toprepared/<%= order._id %>" method="POST">
@@ -47,7 +49,7 @@
                     <table class="table table-bordered table-striped mb-2 table-success table-hover">
                         <thead>
                           <tr>
-                            <th scope="col"> Name </th>
+                            <th scope="col"> No. </th>
                             <th scope="col">Amount</th>
                             <th scope="col">Next</th>
                           </tr>
@@ -56,7 +58,9 @@
                             <% for(let order of orders) {%>
                                 <% if(order.stage === 'prepared') { %> 
                                     <tr>
-                                        <th scope="row"><%= order.userId.name %> </th>
+                                        <% let glass = order._id.toString() %> 
+                                        <% let orderNo = glass.slice(-4) %> 
+                                        <th scope="row"><%= orderNo %> </th>
                                         <td><%= order.cartTotal %> </td>
                                         <td> 
                                             <form action="/orders/dashboard/topickedup/<%= order._id %>" method="POST">
@@ -78,7 +82,7 @@
                     <table class="table table-bordered table-striped mb-2 table-success table-hover">
                         <thead>
                           <tr>
-                            <th scope="col"> Name</th>
+                            <th scope="col"> No. </th>
                             <th scope="col">Amount</th>
                             <th scope="col">Next</th>
                           </tr>
@@ -87,7 +91,9 @@
                             <% for(let order of orders) {%>
                                 <% if(order.stage === 'pickedup') { %>
                                     <tr>
-                                        <th scope="row"><%= order.userId.name %> </th>
+                                        <% let glass = order._id.toString() %> 
+                                        <% let orderNo = glass.slice(-4) %> 
+                                        <th scope="row"><%= orderNo %> </th>
                                         <td><%= order.cartTotal %> </td>
                                         <td>
                                             <form action="/orders/dashboard/toorderhistory/<%= order._id %>" method="POST">
@@ -102,7 +108,9 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center m-3">
-                        <button class="btn btn-success" <%= len === 15 ? '' : 'disabled' %> >Submit</button>
+                        <form action="/orders/map">
+                            <button class="btn btn-success" <%= len === 6 ? '' : 'disabled' %> >Route</button>
+                        </form>
                     </div>
                 </div>
             </div>
