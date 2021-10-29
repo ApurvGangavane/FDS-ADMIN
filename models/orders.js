@@ -1,59 +1,56 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const cartModel = require('./cart');
 
 var date = getDate();
 
 const cartSchema = new Schema({
-  product: {
-      type: Schema.Types.ObjectId,
-      ref: 'Product'
-  },
-  quantity: {
-      type: Number
-  }
-  
+    name: {
+        type: String
+    },
+    price: {
+        type: Number
+    },
+    productImage:{
+        type: String
+    },
+    quantity: {
+        type: Number
+    
+    }
 });
 
 const orderSchema = new Schema({
-    orderNo : {
-      type: Number,
-      unique: true,
-      required: true
-    },
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     cart: [cartSchema],
+    dateOrdered: {type: String},
+    deliveryAddress: { type: String},
+    paymentmethod: { type: String },
+    cartTotal: { type: Number},
     status: {
-      type: String, 
-      enum: ['accept', 'reject']
-    },
-    dateOrdered: {type: String, default: date},
-    deliveryAddress: { type: String, required: true },
-    paymentmethod: { type: String, required: true },
-    stage: {
-      type: String,
-      enum: ['initial', 'preparing', 'prepared', 'pickedup', 'history'],
-      default : 'initial'
-    }
-    // cartTotal: { type: Number, required: true}
+        type: String, 
+        enum: ['accept', 'reject']
+      },
+      stage: {
+        type: String,
+        enum: ['initial', 'preparing', 'prepared', 'pickedup', 'history'],
+        default : 'initial'
+      },
+      lat: {
+          type: String
+      },
+      long: {
+          type: Number
+      }
 });
 
-orderSchema.virtual('cartTotal').get(function (){
-  let total = 0;
-  for (let c of this.cart){
-    total = total + (c.product.price * c.quantity);
-  }
-  return total;
-})
-
 cartSchema.virtual('amt').get(function () {
-  let subamt = 0;
-  subamt = subamt + (this.product.price * this.quantity);
-  return subamt;
-})
+    let subamt = 0;
+    subamt = subamt + (this.price * this.quantity);
+    return subamt;
+  })
 
 
 function getDate(){
@@ -69,3 +66,4 @@ function getDate(){
 
 
 module.exports = mongoose.model('Order', orderSchema);
+

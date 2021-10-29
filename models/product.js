@@ -16,24 +16,21 @@ const opts = { toJSON: { virtuals: true } };
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    avgRating: {type: Number, default: 0 },
+    avgRating: {type: Number, default: 4 },
     reviews: {type: Array},
     date: {type: String, default: date},
     category: { 
       type: String,
-      enum: ['Starter', 'Main Course', 'Soup', 'Dessert'], 
+      //enum: ['Starter', 'Main Course', 'Soup', 'Dessert'],
+      enum:['beverages', 'snacks', 'householdsupplies', 'cookingsupplies'], 
       required: true 
     },
-    description: {type: String, required: true},
+    //description: {type: String, required: true},
     availability: {
       type: String,
       enum: ['available', 'unavailable']
     },
-    image: imagesSchema,
-    kind: {
-      type: String,
-      enum: ['veg', 'non-veg']
-    }
+    image: imagesSchema
 });
 
 function getDate(){

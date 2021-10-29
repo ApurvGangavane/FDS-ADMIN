@@ -2,8 +2,35 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync.js');
 const { isLoggedIn } = require('../middleware');
+const tsp = require('../build/release/testaddon.node');
+const fs = require('fs');
 
 const Order = require("../models/orders");
+
+//const finalStageOrder = new Array();
+
+async function intoArray() {
+    const orders = await Order.find({stage: 'pickedup'}).populate('userId').populate({
+        path: 'cart',
+        populate:{
+            path: 'product'
+        }
+    });
+    //console.log(orders.length);
+    
+    if(orders.length === 4){
+        let count = 1;
+        for(let order of orders){
+            //{ lat } = order;
+            //{ long } = order;
+            const x = 6378100*order.long*Math.cos(19.022375);
+            const y = 6378100*order.lat;
+            fs.appendFileSync('tsp-project.tsp',"\n" + count + " " + x + " "  + y);
+            count += 1;
+        } 
+        await tsp.hello();
+    }
+}
 
 router.get('/status', isLoggedIn, catchAsync(async (req, res) => {
     const orders = await Order.find({}).populate('userId').populate({
@@ -12,18 +39,18 @@ router.get('/status', isLoggedIn, catchAsync(async (req, res) => {
             path: 'product'
         }
     });
-    console.log(Object.keys(orders).length)
+    //console.log(Object.keys(orders).length)
     res.render('orders/status2', {orders});
 }))
 
 router.get('/dashboard', isLoggedIn, catchAsync(async (req, res) => {
-    const orders = await Order.find({}).populate('userId').populate({
-        path: 'cart',
-        populate:{
-            path: 'product'
-        }
-    });
-    res.render('orders/dashboard', { orders })
+    const orders = await Order.find({}).populate('userId');
+    //console.log(finalStageOrder);
+    //console.log(finalStageOrder.length)
+    const pickedOrders = await Order.find({stage: 'pickedup'});
+    const len = pickedOrders.length;
+    intoArray();
+    res.render('orders/dashboard', { orders, len })
 }))
 
 router.get('/history', isLoggedIn, catchAsync( async (req, res) => {
@@ -72,6 +99,8 @@ router.post('/dashboard/topickedup/:id', isLoggedIn, catchAsync(async (req, res)
     const order = await Order.findById(id);
     order.stage = 'pickedup';
     await order.save();
+    
+    
     res.redirect('/orders/dashboard')
 }))
 

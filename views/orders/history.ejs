@@ -4,7 +4,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-1 border-end">
-                Order No.
+                ID
             </div>
             <div class="col-1 border-end">
                 Order is?
@@ -31,7 +31,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-1">
-                    <%= order.orderNo %> 
+                    <% let ID = order._id.toString() %> 
+                    <%= ID.substring(0,4) %> 
                 </div>
                 <div class="col-1">
                     <%= order.status %>ed 
@@ -52,13 +53,13 @@
                     <p>
                         <% let temp = order._id.toString() %> 
                         <% console.log(temp) %> 
-                        <button class="btn btn-new-submit" type="button" data-bs-toggle="collapse" data-bs-target="#<%= temp %>" aria-expanded="false">
+                        <button class="btn btn-new-submit" type="button" data-bs-toggle="collapse" data-bs-target="#<%= order.userId.name %>" aria-expanded="false">
                           More Info
                         </button>
                       </p>
                 </div>
                 
-                <div class="collapse" id="<%= temp %>">
+                <div class="collapse" id="<%= order.userId.name%>">
                     <div class="card card-body">
                         <div class="row">
                             <div class="col-6">
@@ -74,7 +75,7 @@
                                         <% for( let p of order.cart) {%>
                                             <tr>
                                                 <th scope="row"><%= p.quantity %></th>
-                                                <td><%= p.product.name %> </td>
+                                                <td><%= p.name %> </td>
                                                 <td><%= p.amt %></td>
                                             </tr>
                                         <% } %> 

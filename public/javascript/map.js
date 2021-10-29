@@ -4,6 +4,22 @@ let map = L.map('map', {
     center: [19.022375, 72.855724],
     zoom: 12
 });
+
+// let latToCoord = [
+//                 { latLng: { lat: 20.001553, lng:73.770961} },
+//                 { latLng: { lat: 19.097771, lng:72.881862} },
+//                 { latLng: { lat: 18.542143, lng:73.836864} },
+//                 { latLng: { lat: 17.284962, lng:74.191590} },
+//                 { latLng: { lat: 19.114526, lng:74.760180} },
+//                 { latLng: { lat: 20.001553, lng:73.770961} }
+// ]
+
+
+// function geoToEuclidean() {
+//     const x = 6378100*lng*Math.cos(19.022375);
+//     const y = 6378100*lat;
+//     fs.appendfile('tsp-project.tsp');
+// }
     
 
     function runDirection() {

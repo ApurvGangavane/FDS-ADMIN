@@ -11,7 +11,7 @@
         <div class="card" style="width: 19rem;">
             <div class="card-body">
               <h5 class="card-title"> <%= order.userId.name %> </h5>
-              <h6 class="card-subtitle mb-3"> Order Number: <b><%= order.orderNo  %> </b></h6>              
+                          
               <h5 class="card-subtitle mb-3">Total Amount: <b>Rs.<%= order.cartTotal %></b></h5>
               <form action="/orders/topreparing/<%= order._id %>" method="POST">
                 <div class="mb-2">
@@ -44,7 +44,7 @@
                     <% for( let p of order.cart) {%>
                         <tr>
                             <th scope="row"><%= p.quantity %></th>
-                            <td><%= p.product.name %> </td>
+                            <td><%= p.name %> </td>
                             <td><%= p.amt %></td>
                         </tr>
                     <% } %>  
